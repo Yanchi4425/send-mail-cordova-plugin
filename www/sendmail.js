@@ -1,17 +1,19 @@
 var sendmail = {
 
-    send: function(successCallback, errorCallback, subject, body, sender, password, recipients, attachment){
+    send: function(successCallback, errorCallback,data){
         cordova.exec(successCallback,
             errorCallback,
             "SendMail",
             "send",
             [{
-                 "subject":subject,
-                 "body":body,
-                 "sender":sender,
-                 "password":password,
-                 "recipients":recipients,
-                 "attachment": attachment,
+                "host": data.host,
+                "sender": data.from,
+                "password": data.password,
+                "port": data.port,
+                "recipients": data.to,
+                "subject":data.subject,
+                "body": data.body,
+                "attachment": data.attachment
             }]
         );
     }

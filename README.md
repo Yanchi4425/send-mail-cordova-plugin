@@ -1,64 +1,48 @@
-send-mail-cordova-plugin
-========================
+# send-mail-cordova-plugin
 
-This Cordova plugin allows to send an email using Android platform without email composer
+- This Cordova plugin allows to send an email using Android platform without email composer.
+- This is a https://github.com/raguilera82/send-mail-cordova-plugin.git fork.
+- The original uses a G-mail server, but this has been changed to use an arbitrary server.
+- It only supports Android. (Anyone please support iOS version. :) )
+- Multiple attachments can be used. (The source of the file is base64 character string)
 
-Add in Cordova/PhoneGap project
-========================
+# Add in Cordova/PhoneGap project
 
-cordova plugin add https://github.com/raguilera82/send-mail-cordova-plugin.git
+```bash
+cordova plugin add https://github.com/Yanchi4425/send-mail-cordova-plugin.git
+```
 
+#Usage
 
-Example calling from index.js
-========================
+```javascript
 
-<code>
+    // After firing the deviceReady event
+    function sendEmail(){
+        var attachments = [];
+        attachments.push({fileName:"hoge.csv", base64Source: "aG9nZSxmdWdhLHBpeW8="});
+        attachments.push({fileName:"fuga.png", base64Source: "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAUSURBVBhXYwCBRS8Y3sqo/P//HwAZpAW19iezEgAAAABJRU5ErkJggg=="});
         
-      var app = {
-      // Application Constructor
-      initialize: function() {
-          this.bindEvents();
-      },
-      // Bind Event Listeners
-      //
-      // Bind any events that are required on startup. Common events are:
-      // 'load', 'deviceready', 'offline', and 'online'.
-      bindEvents: function() {
-          document.addEventListener('deviceready', this.onDeviceReady, false);
-      },
-      // deviceready Event Handler
-      //
-      // The scope of 'this' is the event. In order to call the 'receivedEvent'
-      // function, we must explicity call 'app.receivedEvent(...);'
-      onDeviceReady: function() {
-          app.receivedEvent('deviceready');
-          sendmail.send(app.sendMailSuccess, app.sendMailError,
-                  '(subject)',
-                  'body', 
-                  'yourmail@gmail.com', 'password',
-                  'tosomeone@gmail.com');
-      },
-      sendMailSuccess : function() {
-         console.log('Email send');
-      },
-      sendMailError : function(error) {
-          console.log('Error: ' + error);
-      },
-      // Update DOM on a Received Event
-      receivedEvent: function(id) {
-          var parentElement = document.getElementById(id);
-          var listeningElement = parentElement.querySelector('.listening');
-          var receivedElement = parentElement.querySelector('.received');
-    
-          listeningElement.setAttribute('style', 'display:none;');
-          receivedElement.setAttribute('style', 'display:block;');
-    
-          console.log('Received Event: ' + id);
-      }
-    };
-</code>
+        let mailData = {
+                host: "smtp.example.com", // SMTP serverhost 
+                from : "your-address@example.com",//from (login id.)
+                password:"password", // login password.
+                port:"587", // SMTP Server Port No.
+                to: "to-address@example.com",
+                subject: "Subject",
+                body: "mail body",
+                // body: "<span style='color:orange'>mail body</span>", // can use html.
+                attachment: attachments
+        };
 
-Tutorial in Spanish
-========================
-
-http://www.adictosaltrabajo.com/tutoriales/tutoriales.php?pagina=PluginAndroidPhoneGap
+        // Go.
+        sendmail.send(sendMailSuccess, sendMailError,mailData);
+    }
+    
+    function sendMailSuccess(successMessage) {
+        console.log(successMessage);
+    }
+    
+    function sendMailError(error) {
+        console.log('Error: ' + error);
+    }
+```
