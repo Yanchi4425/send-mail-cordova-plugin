@@ -12,7 +12,7 @@
 cordova plugin add https://github.com/Yanchi4425/send-mail-cordova-plugin.git
 ```
 
-#Usage
+# Usage
 
 ```javascript
 
